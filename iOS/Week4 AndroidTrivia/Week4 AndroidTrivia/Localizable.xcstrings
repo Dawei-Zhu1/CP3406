@@ -90,7 +90,15 @@
       }
     },
     "select_an_avatar" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select an Avatar"
+          }
+        }
+      }
     },
     "share" : {
       "extractionState" : "manual",
