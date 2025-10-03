@@ -9,11 +9,16 @@ import SwiftUI
 
 struct AboutView: View {
     var body: some View {
-        VStack {
-            Image("about_android_trivia")
-                .resizable()
-                .scaledToFit()
-        }.padding()
+        ScrollView{
+            VStack {
+                Image("about_android_trivia")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200)
+                    .padding(20)
+                Text(.aboutText)
+            }.padding()
+        }
     }
 }
 
