@@ -1,0 +1,36 @@
+# Xcode
+DerivedData/
+*.xcuserstate
+*.xcworkspace
+*.xcuserdata
+*.xcodeproj/project.xcworkspace/contents.xcuserdatad
+
+# Swift Package Manager
+.build/
+Packages/
+.swiftpm/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# macOS
+.DS_Store
+
+# iOS
+*.ipa
+*.app
+*.dSYM.zip
+*.dSYM
+
+# Android
+# Ignore Android temporary files
+**/Android/build/
+**/Android/.gradle/
+
