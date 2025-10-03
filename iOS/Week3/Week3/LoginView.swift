@@ -13,25 +13,23 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            Text("Login")
-                .font(.largeTitle)
-                .padding()
-            
             TextField("Email", text: .constant(""))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
             
             SecureField("Password", text: .constant(""))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .textFieldStyle(.roundedBorder)
+                .padding(.horizontal)
             
-            Button(action: {}) {
-                Text("Login")
-            }.buttonStyle(.borderedProminent)
+            Button("Login") {}
+                .buttonStyle(.borderedProminent)
+                .padding()
         }
+        .navigationTitle("Login")
     }
 }
 
 #Preview {
+//    In the preview section, if with binding parameters, add parameter like this
     LoginView()
 }
