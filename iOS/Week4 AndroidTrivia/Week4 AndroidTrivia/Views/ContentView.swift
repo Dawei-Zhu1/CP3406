@@ -28,14 +28,26 @@ struct ContentView: View {
                 Image("android_trivia")
                     .resizable()
                     .scaledToFit()
-                    .imageScale(.large)
+                    .imageScale(.medium)
                     .foregroundStyle(.tint)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                NavigationLink("Play"){}
+                NavigationLink(destination: RulesView()){Text(.play)}
                     .buttonStyle(.borderedProminent)
-                    .padding()
-            }.padding()
-           
+                    .controlSize(.large)
+            }
+            .toolbar{
+                ToolbarItem(placement: .topBarTrailing){
+                    NavigationLink(destination: AboutView()) {
+                        Text(.about)
+                    }
+                }
+                ToolbarItem(placement: .topBarLeading){
+                    NavigationLink(destination: RulesView()){
+                        Text(.rules)
+                    }
+                }
+            }.padding(32)
         }
     }
 }
