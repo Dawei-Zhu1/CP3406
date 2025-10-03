@@ -30,10 +30,12 @@ struct ContentView: View {
                     .scaledToFit()
                     .imageScale(.large)
                     .foregroundStyle(.tint)
-            }
-            .padding()
-            NavigationLink("Play"){}
-                .buttonStyle(.borderedProminent)
+                
+                NavigationLink("Play"){}
+                    .buttonStyle(.borderedProminent)
+                    .padding()
+            }.padding()
+           
         }
     }
 }
