@@ -129,6 +129,12 @@
             "state" : "translated",
             "value" : "Select the answer from the options given. Each time you get an answer correct, you advance to the next question.\n\nIf you get the answer wrong, your game ends! You can return to the title screen using up or back from within the game screen, and this will also end your game."
           }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从给定的选项中选择答案。每次得到正确答案，你都会前往下一个问题。\n\n如果你答错，那么游戏就结束了！您可以在游戏屏幕内使用向上或向后返回标题屏幕，这样也会结束游戏。"
+          }
         }
       }
     },
