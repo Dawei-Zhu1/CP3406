@@ -23,6 +23,17 @@
         }
       }
     },
+    "app_name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Android Trivia"
+          }
+        }
+      }
+    },
     "congratulations" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30,6 +41,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Congratulations!"
+          }
+        }
+      }
+    },
+    "game_over" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Over"
+          }
+        }
+      }
+    },
+    "position" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Position"
           }
         }
       }
@@ -55,6 +88,9 @@
           }
         }
       }
+    },
+    "select_an_avatar" : {
+      "extractionState" : "manual"
     },
     "share" : {
       "extractionState" : "manual",
@@ -140,6 +176,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trivia Hint"
+          }
+        }
+      }
+    },
+    "try_again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try Again?"
           }
         }
       }
