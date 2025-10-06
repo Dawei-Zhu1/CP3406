@@ -23,9 +23,6 @@ struct GameWonView: View {
     }
 }
 
-struct GameWonView_Previews: PreviewProvider {
-    static var previews: some View {
-        GameWonView()
-    }
+#Preview {
+    GameWonView()
 }
-
