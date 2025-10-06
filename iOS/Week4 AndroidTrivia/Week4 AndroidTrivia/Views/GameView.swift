@@ -10,15 +10,11 @@ import SwiftUI
 struct Question {
     var text: String
     var answers: [String]
+    var correctAnswer: String!
     init(text: String, answers: [String]) {
         self.text = text
-        self.answers = answers
-    }
-    var correctAnswer: String {
-        answers.first!
-    }
-    var shuffledAnswers: [String] {
-        answers.shuffled()
+        self.answers = answers.shuffled() // Shuffled
+        self.correctAnswer = answers.first!
     }
 }
 //    List of all questions
@@ -45,10 +41,16 @@ var questions: [Question] = [
              answers: ["<layout>", "<binding>", "<data-binding>", "<dbinding>"])
 ]
 
-
+enum GameState {
+    case playing
+    case won
+    case lost
+}
 
 struct GameView: View {
-    @Binding var path: NavigationPath
+    // The game state
+    @State private var gameState: GameState = .playing
+    
     let numberOfQuestions: Int = 3 // Total number of questions
     lazy var questionPool: [Question] = Array(questions.shuffled().prefix(numberOfQuestions))
     
@@ -62,32 +64,32 @@ struct GameView: View {
     @State var isGameWon: Bool = false
     
     
-    
     var body: some View {
         VStack {
-            Image(.androidCategorySimple)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 200, height: 200)
-            VStack {
-                Text(questions[0].text)
-                    .font(.headline)
-                    .multilineTextAlignment(.leading)
-                    .padding()
-                
-                let options = questions[currentIndex].answers
-                ForEach(options, id: \.self) { option in
-                    Button(
-                        action: {
-                            selectedOption = option
-                        }) {
+            switch gameState {
+            case .playing:
+                Image(.androidCategorySimple)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                VStack {
+                    Text(questions[0].text)
+                        .font(.headline)
+                        .multilineTextAlignment(.leading)
+                        .padding()
+                    let options = questions[currentIndex].answers
+                    ForEach(options, id: \.self) { option in
+                        Button(action: {selectedOption = option})
+                        {
                             Text(option)
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(
-                                    RoundedRectangle(cornerRadius: 12).fill(
-                                        selectedOption == option ? Color.accentColor.opacity(0.2) : Color.optionNotSelected
-                                    )
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(
+                                            selectedOption ==
+                                            option ? Color.accentColor.opacity(0.2) : Color.optionNotSelected
+                                        )
                                 )
                                 .foregroundColor(/*selectedOption == option ? .white : */.black)
                                 .overlay(
@@ -96,41 +98,47 @@ struct GameView: View {
                                     )
                                 )
                         }
-                }
-            }
-            Button("Submit"){
-                let isCorrectAnswer = selectedOption == questions[currentIndex].correctAnswer
-                // If the answer is correct, go to the next question
-                if isCorrectAnswer {
-                    correctCount += 1
-//                    Check if the user has won
-                    if correctCount == numberOfQuestions {
-                        path.removeLast(path.count)
-                        path.append("GameWonView")
-                    } else { // Next question
-                        currentIndex += 1
                     }
-                } else {
-                    path.removeLast(path.count)
-                    path.append("GameOverView")
                 }
+                
+                Button("Submit"){
+                    handleAnswer()
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(ControlSize.large)
+                .padding()
+                .disabled(selectedOption == nil) // Disable the button when the selection is null
+                Spacer()
+            case .won:
+                GameWonView()
+                    .transition(.move(edge: .bottom))
+            case .lost:
+                GameOverView()
+                    .transition(.move(edge: .bottom))
             }
-            .buttonStyle(.borderedProminent)
-            .controlSize(ControlSize.large)
-            .padding()
-            .disabled(selectedOption == nil) // Disable the button when the selection is null
-//            .navigationDestination(isPresented: $isGameWon){GameWonView(path: $path)}
-//            .navigationDestination(isPresented: $isGameOver){GameOverView(path: $path)}
             
-            Spacer()
         }.safeAreaPadding()
+    }
+    func handleAnswer(){
+        let isCorrectAnswer = selectedOption == questions[currentIndex].correctAnswer
+        // If the answer is correct, go to the next question
+        if isCorrectAnswer {
+            correctCount += 1
+            // Check if the user has won
+            if correctCount == numberOfQuestions {
+                gameState = .won
+            } else { // Next question
+                currentIndex += 1
+            }
+        } else {
+            gameState = .lost
+        }
     }
 }
 
 struct GameView_Previews: PreviewProvider {
     static var previews: some View {
-        let path = NavigationPath()
-        GameView(path: .constant(path))
+        GameView()
     }
 }
 
