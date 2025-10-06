@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GameWonView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var path: NavigationPath
     var body: some View {
         ZStack {
             VStack{
@@ -21,6 +23,10 @@ struct GameWonView: View {
     }
 }
 
-#Preview {
-    GameWonView()
+struct GameWonView_Previews: PreviewProvider {
+    static var previews: some View {
+        let path = NavigationPath()
+        GameWonView(path: .constant(path))
+    }
 }
+

@@ -22,8 +22,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var path = NavigationPath()
     var body: some View {
-        NavigationStack{
+        NavigationStack(path: $path){
             VStack {
                 Image("android_trivia")
                     .resizable()
@@ -32,9 +33,23 @@ struct ContentView: View {
                     .foregroundStyle(.tint)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                NavigationLink(destination: GameView()){Text(.play)}
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
+                //                NavigationLink(destination: GameView(path: $path)){Text(.play)}
+                //                    .buttonStyle(.borderedProminent)
+                //                    .controlSize(.large)
+                Button("Play"){
+                    path.append("GameView")
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+            }
+            .navigationDestination(for: String.self){value in
+                switch value {
+                case "GameView": GameView(path: $path)
+                case "GameOverView": GameOverView(path: $path)
+                case "GameWonView": GameWonView(path: $path)
+                default: EmptyView()
+                    fatalError("Unhandled destination")
+                }
             }
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing){

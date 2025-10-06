@@ -48,13 +48,20 @@ var questions: [Question] = [
 
 
 struct GameView: View {
-    let options = questions[0].answers
-    @State var numberOFQuestions: Int = 3
-    @State private var selectedOption: String? = nil
+    @Binding var path: NavigationPath
+    let numberOfQuestions: Int = 3 // Total number of questions
+    lazy var questionPool: [Question] = Array(questions.shuffled().prefix(numberOfQuestions))
+    
+    @State private var selectedOption: String? = nil // Current selected answer
     //    Current Questions and Answers
-    @State var currentQuestion: Int = 0
+    @State var currentIndex: Int = 0
+    @State var correctCount: Int = 0
+    
     @State var answers: [Text]? = nil
     @State var isGameOver: Bool = false
+    @State var isGameWon: Bool = false
+    
+    
     
     var body: some View {
         VStack {
@@ -62,13 +69,13 @@ struct GameView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
-            
             VStack {
                 Text(questions[0].text)
                     .font(.headline)
                     .multilineTextAlignment(.leading)
                     .padding()
                 
+                let options = questions[currentIndex].answers
                 ForEach(options, id: \.self) { option in
                     Button(
                         action: {
@@ -92,20 +99,38 @@ struct GameView: View {
                 }
             }
             Button("Submit"){
-                if selectedOption != questions[0].correctAnswer {
-                    isGameOver.toggle()
+                let isCorrectAnswer = selectedOption == questions[currentIndex].correctAnswer
+                // If the answer is correct, go to the next question
+                if isCorrectAnswer {
+                    correctCount += 1
+//                    Check if the user has won
+                    if correctCount == numberOfQuestions {
+                        path.removeLast(path.count)
+                        path.append("GameWonView")
+                    } else { // Next question
+                        currentIndex += 1
+                    }
+                } else {
+                    path.removeLast(path.count)
+                    path.append("GameOverView")
                 }
             }
             .buttonStyle(.borderedProminent)
             .controlSize(ControlSize.large)
             .padding()
             .disabled(selectedOption == nil) // Disable the button when the selection is null
-            .navigationDestination(isPresented: $isGameOver){GameOverView()}
+//            .navigationDestination(isPresented: $isGameWon){GameWonView(path: $path)}
+//            .navigationDestination(isPresented: $isGameOver){GameOverView(path: $path)}
+            
             Spacer()
         }.safeAreaPadding()
     }
 }
 
-#Preview {
-    GameView()
+struct GameView_Previews: PreviewProvider {
+    static var previews: some View {
+        let path = NavigationPath()
+        GameView(path: .constant(path))
+    }
 }
+

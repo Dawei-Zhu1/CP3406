@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct GameOverView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var path: NavigationPath
     var body: some View {
         ZStack {
             VStack {
@@ -27,6 +29,10 @@ struct GameOverView: View {
     }
 }
 
-#Preview {
-    GameOverView()
+struct GameOverView_Previews: PreviewProvider {
+    static var previews: some View {
+        let path = NavigationPath()
+        GameOverView(path: .constant(path))
+    }
 }
+
