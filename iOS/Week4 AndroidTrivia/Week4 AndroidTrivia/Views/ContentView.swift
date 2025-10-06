@@ -33,7 +33,7 @@ struct ContentView: View {
                     .foregroundStyle(.tint)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                NavigationLink("Play"){GameView()}
+                NavigationLink(.play){GameView()}
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
             }
