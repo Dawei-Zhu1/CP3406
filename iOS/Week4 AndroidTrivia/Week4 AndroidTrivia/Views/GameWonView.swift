@@ -9,12 +9,11 @@ import SwiftUI
 
 struct GameWonView: View {
     @Environment(\.dismiss) var dismiss
-//    @Binding var path: NavigationPath
+    var onTryAgain: () -> Void
     var body: some View {
         ZStack {
             VStack{
                 Image("you_win").resizable().scaledToFit()
-//                Text(.congratulations).font(.largeTitle)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -24,5 +23,5 @@ struct GameWonView: View {
 }
 
 #Preview {
-    GameWonView()
+    GameWonView(onTryAgain: {})
 }

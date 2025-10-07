@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GameOverView: View {
     @Environment(\.dismiss) var dismiss
-    //    @Binding var path: NavigationPath
+    var onTryAgain: () -> Void
     var body: some View {
         ZStack {
             VStack {
@@ -19,7 +19,7 @@ struct GameOverView: View {
                     .frame(width: 200)
                     .padding()
                 Button(.tryAgain) {
-                    GameView()
+                    onTryAgain()
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
@@ -32,6 +32,6 @@ struct GameOverView: View {
 }
 
 #Preview {
-    GameOverView()
+    GameOverView(onTryAgain: {})
 }
 

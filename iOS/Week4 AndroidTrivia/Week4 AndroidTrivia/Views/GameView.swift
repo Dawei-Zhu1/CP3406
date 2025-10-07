@@ -17,8 +17,16 @@ struct Question {
         self.correctAnswer = answers.first!
     }
 }
+
+struct QuestionPool {
+    var questions: [Question]
+    init(questions: [Question]){
+        self.questions = questions.shuffled()
+    }
+    
+}
 //    List of all questions
-var questions: [Question] = [
+let questions: [Question] = [
     Question(text:"What is Android Jetpack?",
              answers: ["All of these", "Tools", "Documentation", "Libraries"]),
     Question(text:"What is the base class for layouts?",
@@ -39,7 +47,7 @@ var questions: [Question] = [
              answers: ["intent-filter", "app-registry", "launcher-registry", "app-launcher"]),
     Question(text:"What do you use to mark a layout for data binding?",
              answers: ["<layout>", "<binding>", "<data-binding>", "<dbinding>"])
-]
+].shuffled()
 
 enum GameState {
     case playing
@@ -51,8 +59,8 @@ struct GameView: View {
     // The game state
     @State private var gameState: GameState = .playing
     
-    let numberOfQuestions: Int = 3 // Total number of questions
-    lazy var questionPool: [Question] = Array(questions.shuffled().prefix(numberOfQuestions))
+    @State private var numberOfQuestions: Int = 3 // Total number of questions
+    // lazy var questionPool: [Question] = Array(questions.shuffled().prefix(numberOfQuestions))
     
     @State private var selectedOption: String? = nil // Current selected answer
     //    Current Questions and Answers
@@ -73,10 +81,13 @@ struct GameView: View {
                     .scaledToFit()
                     .frame(width: 200, height: 200)
                 VStack {
-                    Text(questions[0].text)
+                    Text("\(currentIndex + 1) / \(numberOfQuestions)")
+                    Text(questions[currentIndex].text)
                         .font(.headline)
                         .multilineTextAlignment(.leading)
                         .padding()
+                    Spacer()
+                    // Options
                     let options = questions[currentIndex].answers
                     ForEach(options, id: \.self) { option in
                         Button(action: {selectedOption = option})
@@ -108,17 +119,20 @@ struct GameView: View {
                 .controlSize(ControlSize.large)
                 .padding()
                 .disabled(selectedOption == nil) // Disable the button when the selection is null
-                Spacer()
+                
             case .won:
-                GameWonView()
+                GameWonView(onTryAgain: resetGame)
                     .transition(.move(edge: .bottom))
             case .lost:
-                GameOverView()
+                GameOverView(onTryAgain: resetGame)
                     .transition(.move(edge: .bottom))
             }
             
-        }.safeAreaPadding()
+        }
+        .safeAreaPadding()
     }
+    
+    
     func handleAnswer(){
         let isCorrectAnswer = selectedOption == questions[currentIndex].correctAnswer
         // If the answer is correct, go to the next question
@@ -133,6 +147,14 @@ struct GameView: View {
         } else {
             gameState = .lost
         }
+    }
+    
+    
+    func resetGame() {
+        currentIndex = 0
+        correctCount = 0
+        selectedOption = nil
+        gameState = .playing
     }
 }
 
