@@ -14,6 +14,11 @@ struct GameWonView: View {
         ZStack {
             VStack{
                 Image("you_win").resizable().scaledToFit()
+                Button(.tryAgain) {
+                    onTryAgain()
+                }.buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
