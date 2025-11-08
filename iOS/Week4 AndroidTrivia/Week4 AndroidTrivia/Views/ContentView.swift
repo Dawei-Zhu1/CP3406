@@ -22,7 +22,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    //    @State private var path = NavigationPath()
+    @State private var showingSheet = false
     var body: some View {
         NavigationStack(){
             VStack {
@@ -44,11 +44,14 @@ struct ContentView: View {
                     }
                 }
                 ToolbarItem(placement: .topBarLeading){
-                    NavigationLink(destination: RulesView()){
-                        Text(.rules)
+                    Button(.rules){
+                        showingSheet = true
                     }
                 }
             }.padding(32)
+        }
+        .sheet(isPresented: $showingSheet){
+            RulesView()
         }
     }
 }
